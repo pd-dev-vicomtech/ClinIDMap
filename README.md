@@ -1,4 +1,4 @@
-## APPLICATION
+## ClinIDMap
 
 **ClinIDMap**  is a tool for mapping identifiers (ID, codes) between clinical ontologies and lexical resources.
 
@@ -33,7 +33,7 @@ uvicorn application.web.main:create_app --host 0.0.0.0 --port 5858 --reload
 
 The API has three methods
 
-1) clinidmap/{index_name} Post Index - method for database indexing 
+1) application/{index_name} Post Index - method for database indexing 
 
 When the Elasticsearch API is up, we should update databases in Elasticsearch index 
 
@@ -49,7 +49,7 @@ We pass the text file to the API. To process them correctly, the following argum
 ```
 
 
-2) clinidmap/{index_name} Delete Index - method for index deleting 
+2) application/{index_name} Delete Index - method for index deleting 
 
 To delete the index in Elasticseach istance: 
 
@@ -59,7 +59,7 @@ To delete the index in Elasticseach istance:
 }
 ```
 
-3) clinidmap/map Get Item Mapping - the main method for code mapping
+3) application/map Get Item Mapping - the main method for code mapping
 
 
 Input format contains the source ID we want to map, the type of the taxonomy and the flag if we need to get the infromation about this ID from Wikipedia and WordNet.
@@ -67,7 +67,7 @@ Input format contains the source ID we want to map, the type of the taxonomy and
 The source type must me UMLS, SNOMED_CT, ICD10CM or ICD10PCS. 
 
 ```shell script
-index_name: umls 
+index_name: clinires 
 {
   "source_id": "1003369001",
   "source_type": "SNOMED_CT",
@@ -81,7 +81,7 @@ index_name: umls
 To update the Wikidata codes
 
 ```shell script
-python -m clinidmap.wiki_wordnet.update_wiki
+python -m application.wiki_wordnet.update_wiki
 ```
 
 
@@ -89,8 +89,7 @@ python -m clinidmap.wiki_wordnet.update_wiki
 
 curl 'localhost:9200/_cat/indices?v'
 
-curl -XDELETE 'http://localhost:9500/umls'
-
+curl -XDELETE 'http://localhost:9500/clinires'
 
 
 #### Examples 
@@ -106,3 +105,20 @@ C0025519 - metabolsm
 
 % ICD10CM
 H35.35 - Cystoid macular degeneration
+
+
+### Cite
+
+```
+@inproceedings{zotova-etal-2022-clinidmap,
+    title = "{Clin{IDM}ap: Towards a Clinical IDs Mapping for Data Interoperability}",
+    author = "Zotova, Elena  and
+      Cuadros, Montse  and
+      Rigau, German",
+    booktitle = "Proceedings of the Thirteenth Language Resources and Evaluation Conference",
+    year = "2022",
+    address = "Marseille, France",
+    publisher = "European Language Resources Association",
+    pages = "3661--3669",
+}
+```
