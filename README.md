@@ -1,6 +1,6 @@
 ## APPLICATION
 
-**Mapping**  is a tool for mapping identifiers (ID, codes) between clinical ontologies and lexical resources.
+**ClinIDMap**  is a tool for mapping identifiers (ID, codes) between clinical ontologies and lexical resources.
 
 The tool interlinks identifiers from UMLS, SMOMED-CT, ICD-10, the corresponding Wikipedia articles and WordNet synsets. It's main goal is to provide semantic interoperability across the clinical concepts from various knowledge bases. 
 
@@ -33,9 +33,36 @@ uvicorn application.web.main:create_app --host 0.0.0.0 --port 5858 --reload
 
 The API has three methods
 
-1) application/{index_name} Post Index - method for database indexing 
+1) clinidmap/{index_name} Post Index - method for database indexing 
 
-Input format contains the source ID we want to map, the type of the taxonomy and the flag if we need to get the infromation about this ID from Wikipedia and WordNet. 
+When the Elasticsearch API is up, we should update databases in Elasticsearch index 
+
+We pass the text file to the API. To process them correctly, the following arguments should be provided. 
+
+```shell script
+{
+  "index_name": "string" # the name of the index where the database is indexed
+  "path": "string",
+  "headers": ["string"], # optional
+  "separator": "string"
+}
+```
+
+
+2) clinidmap/{index_name} Delete Index - method for index deleting 
+
+To delete the index in Elasticseach istance: 
+
+```shell script
+{
+  "index_name": "string"
+}
+```
+
+3) clinidmap/map Get Item Mapping - the main method for code mapping
+
+
+Input format contains the source ID we want to map, the type of the taxonomy and the flag if we need to get the infromation about this ID from Wikipedia and WordNet.
 
 The source type must me UMLS, SNOMED_CT, ICD10CM or ICD10PCS. 
 
@@ -49,45 +76,14 @@ index_name: umls
 }
 ```
 
-
-When the Elasticsearch API is up, we should update databases in Elasticsearch index 
-
-We pass the text file to the API. To process them correctly, the following arguments should be provided. 
-
-
-
-2) idmap/{index_name} Delete Index - method for index deleting 
-
-```shell script
-{
-  "index_name": "string" # the name of the index where the database is indexed
-  "path": "string",
-  "headers": ["string"], # optional
-  "separator": "string"
-}
-```
-
-3) idmap/map Get Item Mapping - the main method for code mapping
-
-```shell script
-{
-  "index_name": "string"
-}
-```
-
-
 ### CLI 
 
 To update the Wikidata codes
 
 ```shell script
-python -m application.wiki_wordnet.update_wiki
+python -m clinidmap.wiki_wordnet.update_wiki
 ```
 
-
-### TODO
-
-CLI for batch processing
 
 ### Elastic commands 
 

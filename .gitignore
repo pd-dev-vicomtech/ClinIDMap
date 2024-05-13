@@ -2,7 +2,7 @@
 **/logs 
 **/.vscode
 **/experiments
-**/database_
+**/_database_
 **/corpus
 *.pyc
 *.log

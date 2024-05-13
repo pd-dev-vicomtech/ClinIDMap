@@ -1,6 +1,6 @@
 import pandas as pd
 
-from application.mapping.elastic_search import query_search, get_query, get_umls_query, get_sab_query, result2dicts, result2list_unique
+from application.mapping.elastic_search import query_search, get_umls_query, get_sab_query, result2dicts, result2list_unique
 from application import constants
 
 
